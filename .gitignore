@@ -1,0 +1,7 @@
+logs/
+__pycache__/
+utils/__pycache__/
+plugins/__pycache__/
+config.yml
+data/
+config.yml
