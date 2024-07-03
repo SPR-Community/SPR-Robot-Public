@@ -27,6 +27,10 @@
   <a href="https://spr-community.github.io/SPR-Robot-Docs/guide/">快速起步</a>
 </p>
 
+## 声明
+
+本项目仅用于**自己的社区**！本人允许各位大神点评，但我的技术力就摆在这了，我知道肯定会很烂，我个人的想法就是能用就行，尽可能不要挑刺，谢谢（（（
+
 
 ## License | 许可证
 
