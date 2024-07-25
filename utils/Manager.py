@@ -23,6 +23,13 @@ async def load_plugins(root_dir):
                         raise Exception
             except Exception as e:
                 logger.error(f'插件管理器 >>> 加载插件 {module_name} 失败：{e}')
+    
+    # 调用所有注册的启动函数
+    for handler in plugin_registry.get_startup_handlers():
+        try:
+            await handler()  # 注意这里没有传参
+        except Exception as e:
+            logger.error(f'插件管理器 >>> 调用启动函数失败：{e}')
 
 def load_module(module_name, module_path):
     spec = importlib.util.spec_from_file_location(module_name, module_path)
@@ -31,7 +38,7 @@ def load_module(module_name, module_path):
     return module
 
 async def handle_event(sid, user_id, group_id, nickname, type, card, role, text, botnick, message_id):
-    for handler in plugin_registry.get_handlers():
+    for handler in plugin_registry.get_event_handlers():
         try:
             await handler(sid, user_id, group_id, nickname, type, card, role, text, botnick, message_id)
         except Exception as e:

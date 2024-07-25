@@ -40,9 +40,6 @@ else:
 @event_handler
 async def handle_event(user_id, text):
     if text.startswith('/motd '):
-        if user_id == 3085362464:
-            await Event.send_message('您当前处于黑名单中，所有事件已阻断')
-            return
         logger.event('插件管理器 >>> 开始处理命令：/motd')
         if text := text[len("/motd "):]:
             if ' ' in text:

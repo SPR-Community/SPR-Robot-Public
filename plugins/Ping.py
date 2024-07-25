@@ -30,8 +30,8 @@ async def handle_event(user_id, text):
         response = requests.get('https://uapis.cn/api/ping?host=' + text)
         if response.status_code == 200:
             response = response.json()
-            host = response['host']
-            ip = response['ip']
+            host = response['host'].replace(".", ",")
+            ip = response['ip'].replace(".", ",")
             location = response['location']
             maxdelay = response['max']
             mindelay = response['min']

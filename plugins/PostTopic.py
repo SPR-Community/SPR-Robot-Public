@@ -13,16 +13,21 @@ __plugin_meta__ = {
 
 @event_handler
 async def handle_event(user_id, group_id, text):
-    if text.startswith('/post ') and group_id in '群ID':
+    if text.startswith('/post ') and group_id in [903068612]:
         if user_id == 3085362464:
             await Event.send_message('您当前处于黑名单中，所有事件已阻断')
             return
         text = text[len("/post "):].split('&amp;')
         title = text[0]
-        mainpara = text[1]
-        if await post(title,mainpara) != 0:
-            await Event.send_message('帖子发布完成！')
-            await Event.send_message(title + '\r' + mainpara)
+        try:
+            mainpara = text[1]
+        except IndexError as e:
+            await Event.send_message(f'您未输入正文，请重新输入，错误：{str(e)}')
+            return
+        result = await post(title,mainpara)
+        if result != 0:
+            await Event.send_message(f'帖子发布完成！详见{result}')
+            await Event.send_message(title + '\r' + mainpara +'\r' + '详见' + result, 820819698)
         else:
             await Event.send_message('帖子发布失败，详见控制台')
 
@@ -40,13 +45,11 @@ async def handle_event(user_id, group_id, text):
 
 
 
-
-
 async def post(thread_title, thread_message):
     # Xenforo论坛的API信息
-    api_url = "url"
-    api_key = ""
-    forum_id = 0  # 替换为实际的板块ID
+    api_url = "https://forum.shanshui.site/api"
+    api_key = "1icWI_URv8xwRyFW-LMZNIlhUbA-Zv05"
+    forum_id = 11  # 替换为实际的板块ID
 
     # 构建请求头
     headers = {

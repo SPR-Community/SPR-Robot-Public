@@ -1,12 +1,38 @@
 import websockets
 import asyncio, json
 from core import on_message
-from utils.Logger import logger, logging, on_stop
+from utils.Decorators import startup_handler
+from utils.Logger import logger, logging, on_stop, log_queue
 from utils.Manager import load_plugins
 from utils.Config import config
 import os
+import threading
+import queue
+from SimpfunAnnouncement import main as announcement_main
 
 dir = os.path.dirname(__file__)
+status = 0
+log_queue = queue.Queue()
+def log_receiver():
+    while True:
+        try:
+            log_message = log_queue.get(timeout=3)  # 设置超时避免永久阻塞
+            if log_message is None:
+                # 如果收到None，退出循环
+                break
+            # 这里可以处理日志消息，例如打印到控制台或发送到其他地方
+            print(log_message)
+        except queue.Empty:
+            # 如果队列为空，什么也不做，继续循环
+            pass
+
+
+async def run_announcement():
+    from SimpfunAnnouncement import __init__ as announcement_init  # 导入SimpfunAnnouncement的初始化函数
+    announcement_init()  # 运行SimpfunAnnouncement的初始化函数
+
+
+
 
 async def stop(ws=None):
     logger.info("框架 >>> 正在关闭监听......")
@@ -15,9 +41,18 @@ async def stop(ws=None):
     logger.info("框架 >>> 正在关闭日志记录器......")
     logging.shutdown()
     await on_stop()
+    if status == 1:
+        os.remove('session.lock')
+    else:
+        pass
     os._exit(0)
 
 async def handle_websocket(ws):
+    if os.path.exists('session.lock'):
+        logger.error(f'框架 >>> 警告，框架已启动或未正常关机，请先关闭存在的框架或删除 session.lock 后再启动！')
+        await stop()
+    else:
+        pass
     try:
         async with websockets.connect(config.url) as websocket:
             info = json.loads(await websocket.recv())
@@ -29,6 +64,13 @@ async def handle_websocket(ws):
                 nickname = info['data']['nickname']
                 logger.info(f'框架 >>> QQ {uid} 已连接')
                 logger.info(f'框架 >>> 欢迎您，{nickname}！')
+                with open('session.lock', 'w') as f:
+                    f.close()
+                global status
+                status = 1
+                log_thread = threading.Thread(target=log_receiver, daemon=True)
+                log_thread.start()
+                asyncio.create_task(run_announcement())
         
         async for message in ws:
             await on_message(message,nickname)
@@ -84,8 +126,13 @@ async def connect_and_run():
     else:
         await attempt_reconnect()
 
+
 async def main():
+    log_thread = threading.Thread(target=log_receiver)
+    log_thread.daemon = True  # 设置为守护线程，以便主程序退出时可以立即退出
+    log_thread.start()
     await connect_and_run()
+    await startup_handler()
 
 if __name__ == "__main__":
     try:

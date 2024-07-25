@@ -3,7 +3,7 @@ from utils.Event import Event
 from utils.Logger import logger
 from utils.Decorators import event_handler
 
-__version__ = "0.0.1"
+__version__ = "0.0.2"
 __plugin_meta__ = {
     'name': "混元大模型",
     'description': "使用混元模型驱动的聊天机器人",
@@ -12,8 +12,7 @@ __plugin_meta__ = {
 
 url = "https://yuanqi.tencent.com/openapi/v1/agent/chat/completions"
 token = "token"
-appid = 'id'
-
+appid = 'appid'
 
 headers = {
     "X-Source": "openapi",
@@ -25,6 +24,9 @@ headers = {
 @event_handler
 async def handle_event(user_id, text, nickname, self_id):
     if text.startswith(f'[CQ:at,qq={self_id}]'):
+        if user_id == 3085362464:
+            await Event.send_message('您当前处于黑名单中，所有事件已阻断')
+            return
         logger.event('插件管理器 >>> 开始处理命令：AI...')
         data = {
             "assistant_id": appid,
@@ -35,7 +37,7 @@ async def handle_event(user_id, text, nickname, self_id):
                     "role": "user",
                     "content": [{
                         "type": "text",
-                        "text": f'[{nickname}]' + str(text)
+                        "text": f'[{nickname},{user_id}]' + str(text)
                     }]
                 }
 

@@ -26,5 +26,11 @@ def event_handler(func):
             current_id = arg_dict.get('user_id')
         return await func(**required_args)
     
-    plugin_registry.register(wrapper)
+    plugin_registry.register_event_handler(wrapper)
+    return wrapper
+
+def startup_handler(func):
+    async def wrapper():
+        return await func()
+    plugin_registry.register_startup_handler(wrapper)  # 注册到启动函数列表
     return wrapper

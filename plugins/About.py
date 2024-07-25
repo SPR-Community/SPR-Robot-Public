@@ -19,9 +19,6 @@ async def handle_event(self_id, user_id, group_id, text, botnick):
     global message_count
     message_count = message_count + 1
     if text == '/about':
-        if user_id == 3085362464:
-            await Event.send_message('您当前处于黑名单中，所有事件已阻断')
-            return
         logger.event('插件管理器 >>> 开始处理命令：/about')
         await handle_about(self_id, botnick, group_id, message_count)
 
@@ -47,6 +44,7 @@ Bot UID：{self_id}
 
 消息收/发： {message_count} 条
 
+开源地址：https://github.com/SPR-Community/SPR-Robot-Public
 ===========
 时间：{datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
 Copyright 2024 山水画路社区'''

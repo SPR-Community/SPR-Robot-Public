@@ -13,7 +13,7 @@ __plugin_meta__ = {
 
 @event_handler
 async def handle_event(user_id, group_id, text):
-    if text.startswith("/bind ") and group_id in '群ID':
+    if text.startswith("/bind ") and group_id in [820819698]:
         if user_id == 3085362464:
             await Event.send_message('您当前处于黑名单中，所有事件已阻断')
             return
@@ -30,14 +30,14 @@ async def handle_event(user_id, group_id, text):
                 await Event.send_message(f"绑定完毕！\n======\n您当前绑定的玩家为：{text}\n您当前绑定的所有玩家： {alluser} ")
             else:
                 await Event.send_message(result)
-    elif text.startswith("/unbind ") and group_id in '群ID':
+    elif text.startswith("/unbind ") and group_id in [820819698]:
         if user_id == 3085362464:
             await Event.send_message('您当前处于黑名单中，所有事件已阻断')
             return
         logger.event('插件管理器 >>> 开始处理命令：/unbind')
         if text := text[len("/unbind "):]:
             await Event.send_message(await delete_player(user_id,text))
-    elif text == "/search" and group_id in '群ID':
+    elif text == "/search" and group_id in [820819698,257300874]:
         if user_id == 3085362464:
             await Event.send_message('您当前处于黑名单中，所有事件已阻断')
             return
@@ -142,7 +142,7 @@ async def get_player_names(qq_number: int) -> str:
 
 async def reg(player_name):
     try:
-        注册玩家 =await  MinecraftClient.connect(host="host",port=1,pasw="")
+        注册玩家 =await  MinecraftClient.connect(host="host",port=00000,pasw='pasw')
         结果 = await 注册玩家.command(f'playerwhitelist add {player_name}')
         await 注册玩家.close()
         正式结果 = re.sub("§.", "", 结果)
@@ -156,7 +156,7 @@ async def reg(player_name):
 
 async def unreg(player_name):
     try:
-        注册玩家 = await MinecraftClient.connect(host="host",port=1,pasw='')
+        注册玩家 = await MinecraftClient.connect(host="host",port=00000,pasw='pasw')
         结果 = await 注册玩家.command(f'playerwhitelist remove {player_name}')
         await 注册玩家.close()
         正式结果 = re.sub("§.", "", 结果)

@@ -3,6 +3,7 @@ import datetime
 import coloredlogs
 import colorama
 import os
+import queue
 
 # 检查配置文件是否存在
 if not os.path.exists('./config.yml'):
@@ -74,5 +75,30 @@ field_styles = {
 coloredlogs.install(level=config.loglevel, logger=logger, fmt='[%(asctime)s][%(levelname)s] %(message)s',
                     datefmt='%Y-%m-%d %H:%M:%S', level_styles=level_styles, field_styles=field_styles)
 
+# 创建日志队列
+log_queue = queue.Queue()
+
+# 创建队列日志处理器
+class LogQueueHandler(logging.Handler):
+    def __init__(self, queue):
+        super().__init__()
+        self.queue = queue
+
+    def emit(self, record):
+        log_entry = self.format(record)
+        self.queue.put(log_entry)
+
+# 添加队列处理器
+queue_handler = LogQueueHandler(log_queue)
+queue_handler.setFormatter(file_formatter)
+queue_handler.setLevel(log_level)
+logger.addHandler(queue_handler)
+
+# 关闭队列处理器的方法
+def close_queue_handler():
+    logger.removeHandler(queue_handler)
+
+# 停止日志记录的方法
 async def on_stop():
     file_handler.close()
+    close_queue_handler()
