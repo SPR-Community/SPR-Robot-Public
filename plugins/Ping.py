@@ -14,16 +14,10 @@ __plugin_meta__ = {
 @event_handler
 async def handle_event(user_id, text):
     if text == '/ping' or text == '/ping ':
-        if user_id == 3085362464:
-            await Event.send_message('您当前处于黑名单中，所有事件已阻断')
-            return
         logger.event('插件管理器 >>> 开始处理命令：/ping')
         await Event.send_message('使用方法：/ping IP或域名')
         return
     elif text.startswith('/ping '):
-        if user_id == 3085362464:
-            await Event.send_message('您当前处于黑名单中，所有事件已阻断')
-            return
         logger.event('插件管理器 >>> 开始处理命令：/ping')
         text = text[len("/ping "):]
         text = re.sub(r'^https://|/$', '', text)

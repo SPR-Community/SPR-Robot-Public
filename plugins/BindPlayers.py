@@ -14,11 +14,6 @@ __plugin_meta__ = {
 @event_handler
 async def handle_event(user_id, group_id, text):
     if text.startswith("/bind ") and group_id in [820819698]:
-        if user_id == 3085362464:
-            await Event.send_message('您当前处于黑名单中，所有事件已阻断')
-            return
-        else:
-            pass
         logger.event('插件管理器 >>> 开始处理命令：/bind')
         if text := text[len("/bind "):]:
             if 'YiLonger_' in text or user_id == '':
@@ -37,7 +32,7 @@ async def handle_event(user_id, group_id, text):
         logger.event('插件管理器 >>> 开始处理命令：/unbind')
         if text := text[len("/unbind "):]:
             await Event.send_message(await delete_player(user_id,text))
-    elif text == "/search" and group_id in [820819698,257300874]:
+    elif text == "/search" and group_id in [820819698]:
         if user_id == 3085362464:
             await Event.send_message('您当前处于黑名单中，所有事件已阻断')
             return

@@ -4,6 +4,7 @@ import os
 import yaml
 import time
 from utils.Logger import logger, log_queue  # 导入修改后的logger和log_queue
+from utils.Event import Event
 
 now_id = 0
 
@@ -17,6 +18,12 @@ async def main():
                     if announcements:
                         now_id = max(announcements, key=lambda x: x['id'])['id']
                         logger.debug(f'简幻欢-自动监听 >>> [DEBUG]最新公告ID: {now_id}')  # 使用logger记录日志
+                        for announcement in announcements:
+                            title = announcement.get('title')
+                            text = announcement.get('text')
+                            break
+                        text = title + '\r\n' + text + '\r\n' + "【消息来源：简幻欢】"
+                        await Event.send_message(text, 'group', 864782971)
                     else:
                         logger.warning('没有找到公告列表')
 
@@ -29,7 +36,7 @@ async def main():
                         default_id = yaml.load(f, Loader=yaml.FullLoader).get('id')
 
                     if now_id > default_id:
-                        logger.info('简幻欢-自动监听 >>> 有新公告')
+                        logger.info('简幻欢-自动监听 >>> 有新公告，正在发送')
                     else:
                         pass
 

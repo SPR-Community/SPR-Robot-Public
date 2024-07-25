@@ -24,9 +24,6 @@ headers = {
 @event_handler
 async def handle_event(user_id, text, nickname, self_id):
     if text.startswith(f'[CQ:at,qq={self_id}]'):
-        if user_id == 3085362464:
-            await Event.send_message('您当前处于黑名单中，所有事件已阻断')
-            return
         logger.event('插件管理器 >>> 开始处理命令：AI...')
         data = {
             "assistant_id": appid,

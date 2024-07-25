@@ -18,7 +18,7 @@ async def handle_event(user_id, group_id, nickname, text, message_id):
     if not os.path.exists(files):
         with open(files, 'w'):
             pass
-    if group_id in [820819698,864782971,947331683] and "【广告】" in text:
+    if group_id in [820819698] and "【广告】" in text:
         logger.info("收到广告，来自"+ nickname)
         if os.stat(files).st_size != 0:
             content = toml.load(files)

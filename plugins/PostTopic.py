@@ -13,10 +13,7 @@ __plugin_meta__ = {
 
 @event_handler
 async def handle_event(user_id, group_id, text):
-    if text.startswith('/post ') and group_id in [903068612]:
-        if user_id == 3085362464:
-            await Event.send_message('您当前处于黑名单中，所有事件已阻断')
-            return
+    if text.startswith('/post ') and group_id in [8888888888]:
         text = text[len("/post "):].split('&amp;')
         title = text[0]
         try:
