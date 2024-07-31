@@ -9,6 +9,7 @@ import os
 import threading
 import queue
 from SimpfunAnnouncement import main as announcement_main
+from SpigotMCResource import main as spigotmc_resource_main
 
 dir = os.path.dirname(__file__)
 status = 0
@@ -29,7 +30,9 @@ def log_receiver():
 
 async def run_announcement():
     from SimpfunAnnouncement import __init__ as announcement_init  # 导入SimpfunAnnouncement的初始化函数
+    from SpigotMCResource import __init__ as spigotmc_resource_init
     announcement_init()  # 运行SimpfunAnnouncement的初始化函数
+    spigotmc_resource_init()
 
 
 
