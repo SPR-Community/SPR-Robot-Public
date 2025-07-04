@@ -3,14 +3,16 @@
 # 机器人小K
 *🎉 山水画路社区自研自用的 Python 机器人框架*
 
+*🔒 本项目采用 AGPLv3 许可，违规使用将承担法律责任*
+
 </div>
 
-🔒 本项目采用 AGPLv3 + CC BY-NC-ND 4.0 双许可，违规使用将承担法律责任  
+
 
 
 <p align="center">
-  <a href="https://raw.githubusercontent.com/SPR-Community/SPR-Robot-Docs/main/LICENSE">
-    <img src="https://img.shields.io/github/license/SPR-Community/SPR-Robot-Docs" alt="license">
+  <a href="https://raw.githubusercontent.com/SPR-Community/SPR-Robot-Public/main/LICENSE">
+    <img src="https://img.shields.io/github/license/SPR-Community/SPR-Robot-Public" alt="license">
   </a>
   <img src="https://img.shields.io/badge/python-3.12+-blue?logo=python&logoColor=edb641" alt="python">
   <a href="https://qm.qq.com/cgi-bin/qm/qr?k=dtr3ehrAbxpNPlwWRFSxWD0Xi1YhNng0&jump_from=webapi&authKey=DtrSHXcGv8XW+T56PKQ2IcDgvKYCW+AKegdB0+oXTLpbqFnKEBYboHwyKjNMNLtF">
@@ -36,7 +38,7 @@
 
 ## License | 许可证
 
-[MIT](https://github.com/SPR-Community/SPR-Robot-Docs/blob/main/LICENSE)
+[AGPL-3.0 license](https://github.com/SPR-Community/SPR-Robot-Public/blob/main/LICENSE)
 ```
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
