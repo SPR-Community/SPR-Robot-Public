@@ -5,6 +5,8 @@
 
 </div>
 
+🔒 本项目采用 AGPLv3 + CC BY-NC-ND 4.0 双许可，违规使用将承担法律责任  
+
 
 <p align="center">
   <a href="https://raw.githubusercontent.com/SPR-Community/SPR-Robot-Docs/main/LICENSE">

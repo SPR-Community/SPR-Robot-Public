@@ -1,0 +1,15 @@
+name: License Compliance
+on: [pull_request]
+
+jobs:
+  license-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run ORT Scan
+        run: |
+          docker run -v $PWD:/project ort analyze -i /project
+      - name: Enforce Policy
+        run: |
+          docker run -v $PWD:/project ort evaluate -r /project/ort.rules.kts
+          if [ $? -ne 0 ]; then echo "❌ 存在协议违规依赖"; exit 1; fi
